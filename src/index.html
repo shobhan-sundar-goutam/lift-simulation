@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lift Simulation</title>
+    <link rel="stylesheet" href="./css/main.css" />
+  </head>
+  <body>
+    <div class="heading">
+      <h1>Lift Simulation</h1>
+
+      <form class="form">
+        <div class="inputs">
+          <label>Lifts</label>
+          <input type="number" name="lift" min="1" required />
+        </div>
+        <div class="inputs">
+          <label>Floors</label>
+          <input type="number" name="floor" min="1" required />
+        </div>
+        <button id="submit" type="submit">Start</button>
+      </form>
+    </div>
+
+    <div id="building"></div>
+
+    <script src="./js/main.js"></script>
+  </body>
+</html>

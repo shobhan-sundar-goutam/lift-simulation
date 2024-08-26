@@ -1,0 +1,129 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.heading {
+  position: relative;
+  text-align: center;
+}
+
+.form {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  .inputs {
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      width: 55px;
+      height: 30px;
+      border-radius: 5px;
+      padding: 5px;
+      font-weight: bold;
+    }
+  }
+
+  button {
+    width: 55px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: brown;
+    color: white;
+
+    &:hover {
+      background-color: white;
+      color: brown;
+    }
+  }
+}
+
+#building {
+  width: 90%;
+  margin: 1rem auto;
+  overflow-x: auto;
+
+  .floor {
+    height: 90px;
+    border-bottom: 2px solid black;
+    display: flex;
+    /* gap: 10px; */
+
+    .lift-labels {
+      width: 100px;
+      min-width: 15%;
+
+      .floor-label {
+        font-weight: bold;
+      }
+
+      .lift-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50px;
+        gap: 5px;
+        margin-top: 10px;
+
+        .lift-control {
+          width: 45px;
+          height: 25px;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        .up {
+          background-color: greenyellow;
+        }
+
+        .down {
+          background-color: indianred;
+        }
+      }
+    }
+
+    .lifts {
+      display: flex;
+      gap: 20px;
+
+      .lift {
+        height: 100%;
+        width: 60px;
+        background-color: rgba(38, 110, 218, 0.97);
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+
+        .door {
+          height: 100%;
+          width: 50%;
+          border: 1px solid black;
+          background-color: brown;
+        }
+
+        .left-door-open {
+          transform: translateX(-100%);
+          transition: transform 2.5s linear;
+        }
+
+        .right-door-open {
+          transform: translateX(100%);
+          transition: transform 2.5s linear;
+        }
+
+        .left-door-close,
+        .right-door-close {
+          transform: translateX(0%);
+          transition: transform 2.5s linear;
+        }
+      }
+    }
+  }
+}
