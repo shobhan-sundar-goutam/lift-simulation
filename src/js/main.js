@@ -5,19 +5,16 @@ let floorsQueue = []
 let intervalId
 
 const inputLift = document.querySelector('input[name="lift"]');
-inputLift.addEventListener('change', () => numberOfLifts = inputLift.value)
+inputLift.addEventListener('change', () => numberOfLifts = inputLift.value ? parseInt(inputLift.value) : 0)
 
 const inputFloor = document.querySelector('input[name="floor"]');
-inputFloor.addEventListener('change', () => numberOfFloors = inputFloor.value)
+inputFloor.addEventListener('change', () => numberOfFloors = inputFloor.value ? parseInt(inputFloor.value) : 0)
 
 const submitBtn = document.getElementById('submit');
 submitBtn.addEventListener('click', (e) => {
     e.preventDefault()
 
-    numberOfLifts = parseInt(numberOfLifts)
-    numberOfFloors = parseInt(numberOfFloors)
-
-    if (numberOfLifts <= 0 || numberOfFloors <= 0) return alert('Lifts and Floors cannot be 0')
+    if (numberOfLifts <= 0 || numberOfFloors <= 0) return alert('Lifts and Floors values must be atleast 1')
     
     lifts = []
     floorsQueue = []
@@ -42,6 +39,7 @@ function generateBuilding(numberOfLifts, numberOfFloors) {
             <div id="right-door${i}" class="door"></div>
         </div>
         `;
+
         lifts.push({liftId: `lift${i}`, isBusy: false, currentFloor: 1})
     }
 
