@@ -1,6 +1,8 @@
 let numberOfLifts = 0
 let numberOfFloors = 0
 let lifts = []
+let floorsQueue = []
+let intervalId
 
 const inputLift = document.querySelector('input[name="lift"]');
 inputLift.addEventListener('change', () => numberOfLifts = inputLift.value)
@@ -18,7 +20,17 @@ submitBtn.addEventListener('click', (e) => {
     if (numberOfLifts <= 0 || numberOfFloors <= 0) return alert('Lifts and Floors cannot be 0')
     
     lifts = []
+    floorsQueue = []
+    clearInterval(intervalId)
+
     generateBuilding(numberOfLifts, numberOfFloors)   
+
+    intervalId = setInterval(() => {
+        if (floorsQueue.length > 0) {
+            let floor = floorsQueue.shift()
+            moveLift(floor)
+        }
+    }, 100);    
 })
 
 function generateBuilding(numberOfLifts, numberOfFloors) {    
@@ -40,8 +52,8 @@ function generateBuilding(numberOfLifts, numberOfFloors) {
             <div class="lift-labels">
                 <span class="floor-label">Floor ${i}</span>
                 <span class="lift-controls">
-                    ${i !== numberOfFloors ? `<button class="lift-control up" onclick="moveLift(${i})">Up</button>`: ''}
-                    ${i !== 1 ? `<button class="lift-control down" onclick="moveLift(${i})">Down</button>` : ''}
+                    ${i !== numberOfFloors ? `<button class="lift-control up" onclick="floorsQueue.push(${i})">Up</button>`: ''}
+                    ${i !== 1 ? `<button class="lift-control down" onclick="floorsQueue.push(${i})">Down</button>` : ''}
                 </span>
             </div>
             ${i === 1 ? `<div class="lifts">${generatedLifts}</div>` : ''}
@@ -56,27 +68,30 @@ function generateBuilding(numberOfLifts, numberOfFloors) {
 function moveLift(floor) {
     const liftId = findLiftToBeMoved(floor);    
 
-    if (liftId) {
-        const lift = lifts.find(lift => lift.liftId === liftId)
+    if (!liftId) {
+        floorsQueue.unshift(floor)
+        return
+    }
+
+    const lift = lifts.find(lift => lift.liftId === liftId)
+    
+    if (!lift.isBusy) {
+        const liftEl = document.getElementById(lift.liftId);
         
-        if (!lift.isBusy) {
-            const liftEl = document.getElementById(lift.liftId);
-            
-            const y = (floor - 1) * 90 * -1;
-            const time = Math.abs(floor - lift.currentFloor) * 2;
-        
-            lift.isBusy = true
-            lift.currentFloor = floor
-        
-            liftEl.style.transform = `translateY(${y}px)`;
-            liftEl.style.transition = `${time}s linear`;
-        
-            openCloseLiftDoors(lift.liftId, time * 1000)
-        
-            setTimeout(() => {
-                lift.isBusy = false
-            }, time * 1000 + 5000);
-        }
+        const y = (floor - 1) * 90 * -1;
+        const time = Math.abs(floor - lift.currentFloor) * 2;
+    
+        lift.isBusy = true
+        lift.currentFloor = floor
+    
+        liftEl.style.transform = `translateY(${y}px)`;
+        liftEl.style.transition = `${time}s linear`;
+    
+        openCloseLiftDoors(lift.liftId, time * 1000)
+    
+        setTimeout(() => {
+            lift.isBusy = false
+        }, time * 1000 + 5000);
     }
 }
 
