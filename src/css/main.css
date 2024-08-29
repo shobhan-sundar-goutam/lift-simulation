@@ -5,7 +5,7 @@
 }
 
 .heading {
-  position: relative;
+  /* position: relative; */
   text-align: center;
 }
 
@@ -46,19 +46,20 @@
 }
 
 #building {
-  width: 90%;
-  margin: 1rem auto;
-  overflow-x: auto;
+  width: max-content;
+  min-width: 100%;
+  padding: 1rem;
+  /* overflow-x: auto; */
 
   .floor {
     height: 90px;
     border-bottom: 2px solid black;
+    width: 100%;
     display: flex;
-    /* gap: 10px; */
 
     .lift-labels {
       width: 100px;
-      min-width: 15%;
+      /* min-width: 15%; */
 
       .floor-label {
         font-weight: bold;
