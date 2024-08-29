@@ -15,7 +15,7 @@ submitBtn.addEventListener('click', (e) => {
     e.preventDefault()
 
     if (numberOfLifts <= 0 || numberOfFloors <= 0) return alert('Lifts and Floors must be numeric with values atleast 1')
-    if (numberOfFloors <= numberOfLifts) return alert('Number of Lifts must be less than number of Floors')
+    // if (numberOfFloors <= numberOfLifts) return alert('Number of Lifts must be less than number of Floors')
     
     lifts = []
     floorsQueue = []
