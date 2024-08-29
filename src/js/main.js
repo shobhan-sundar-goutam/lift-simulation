@@ -41,7 +41,7 @@ function generateBuilding(numberOfLifts, numberOfFloors) {
         </div>
         `;
 
-        lifts.push({liftId: `lift${i}`, isBusy: false, currentFloor: 1})
+        lifts.push({liftId: `lift${i}`, isBusy: false, currentFloor: 1, movingDirection: null})
     }
 
     let generatedFloors = ''
@@ -51,8 +51,8 @@ function generateBuilding(numberOfLifts, numberOfFloors) {
             <div class="lift-labels">
                 <span class="floor-label">Floor ${i}</span>
                 <span class="lift-controls">
-                    ${i !== numberOfFloors ? `<button class="lift-control up" onclick="floorsQueue.push(${i})">Up</button>`: ''}
-                    ${i !== 1 ? `<button class="lift-control down" onclick="floorsQueue.push(${i})">Down</button>` : ''}
+                    ${i !== numberOfFloors ? `<button class="lift-control up" onclick="floorsQueue.push({floorNumber: ${i}, buttonClicked: 'up'})">Up</button>`: ''}
+                    ${i !== 1 ? `<button class="lift-control down" onclick="floorsQueue.push({floorNumber: ${i}, buttonClicked: 'down'})">Down</button>` : ''}
                 </span>
             </div>
             ${i === 1 ? `<div class="lifts">${generatedLifts}</div>` : ''}
@@ -77,11 +77,12 @@ function moveLift(floor) {
     if (!lift.isBusy) {
         const liftEl = document.getElementById(lift.liftId);
         
-        const y = (floor - 1) * 90 * -1;
-        const time = Math.abs(floor - lift.currentFloor) * 2;
+        const y = (floor.floorNumber - 1) * 90 * -1;
+        const time = Math.abs(floor.floorNumber - lift.currentFloor) * 2;
     
         lift.isBusy = true
-        lift.currentFloor = floor
+        lift.currentFloor = floor.floorNumber;
+        lift.movingDirection = floor.buttonClicked;
     
         liftEl.style.transform = `translateY(${y}px)`;
         liftEl.style.transition = `${time}s linear`;
@@ -90,6 +91,7 @@ function moveLift(floor) {
     
         setTimeout(() => {
             lift.isBusy = false
+            lift.movingDirection = null
         }, time * 1000 + 5000);
     }
 }
@@ -97,10 +99,10 @@ function moveLift(floor) {
 function findLiftToBeMoved(floor) {
     let diff = {value: Number.MAX_SAFE_INTEGER, index: null}
     for (let i = 0; i < lifts.length; i++) {
-        if (lifts[i].currentFloor !== floor) {
+        if (lifts[i].currentFloor !== floor.floorNumber || lifts[i].movingDirection !== floor.buttonClicked) {
             if (!lifts[i].isBusy) {
-                if (Math.abs(floor - lifts[i].currentFloor) < diff.value) {
-                    diff.value = Math.abs(floor - lifts[i].currentFloor)
+                if (Math.abs(floor.floorNumber - lifts[i].currentFloor) < diff.value) {
+                    diff.value = Math.abs(floor.floorNumber - lifts[i].currentFloor)
                     diff.index = i
                 }
             } 
